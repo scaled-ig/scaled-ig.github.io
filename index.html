@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="">
+  <meta name="keywords" content="NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IG-AE</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+
+<body>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Bringing NeRFs to the Latent Space: <br> Inverse Graphics Autoencoder</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=CcjdVBgAAAAJ&hl=fr">Antoine Schnepf</a><sup>* 1,3</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=0dObvuYAAAAJ&hl=fr">Karim Kassab</a><sup>* 1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=IL2OzksAAAAJ&hl=fr">Jean-Yves Franceschi</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=N0YTGr8AAAAJ&hl=en">Laurent Caraffa</a><sup>2</sup>,
+            </span>
+            <br>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=L7qb6ToAAAAJ&hl=en">Flavian Vasile</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=T3dQRjAAAAAJ&hl=fr">Jeremie Mary</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=8UW2vacAAAAJ&hl=en">Andrew Comport</a><sup>3</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=mqq6zX4AAAAJ&hl=en">Valérie Gouet-Brunet</a><sup>2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>* </sup>equal contributions</span><br>
+            <span class="author-block"><sup>1 </sup>Criteo AI Lab, Paris, France</span><br>
+            <span class="author-block"><sup>2 </sup>LASTIG, Université Gustave Eiffel, IGN-ENSG, F-94160 Saint-Mandé</span><br>
+            <span class="author-block"><sup>3 </sup>Université Côte d’Azur, CNRS, I3S, France</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (coming soon)</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data (coming soon)</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ### -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          While pre-trained image autoencoders are increasingly utilized in computer vision, the application of inverse graphics in 2D latent spaces has been under-explored. 
+          Yet, besides reducing the training and rendering complexity, applying inverse graphics in the latent space enables a valuable interoperability with other latent-based 2D methods. 
+          The major challenge is that inverse graphics cannot be directly applied to such image latent spaces because they lack an underlying 3D geometry. 
+          In this paper, we propose an Inverse Graphics Autoencoder (IG-AE) that specifically addresses this issue. 
+          To this end, we regularize an image autoencoder with 3D-geometry by aligning its latent space with jointly trained latent 3D scenes. 
+          We utilize the trained IG-AE to bring NeRFs to the latent space with a latent NeRF training pipeline, which we implement in an open-source extension of the Nerfstudio framework, 
+          thereby unlocking latent scene learning for its supported methods. 
+          We experimentally confirm that Latent NeRFs trained with IG-AE present an improved quality compared to a standard autoencoder, 
+          all while exhibiting training and rendering accelerations with respect to NeRFs trained in the image space.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<!-- Method. -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method</h2>
+
+        <!-- Latent NeRF Training Pipeline. -->
+        <h3 class="title is-4">Latent NeRF Training Pipeline</h3>
+        <div class="content has-text-justified">
+          <div class="columns is-centered has-text-centered">
+            <img src="static/images/latent-nerf-training.svg" alt="Latent NeRF Training" width="75%"/>
+          </div>
+          <p>
+            <b>Latent NeRF Training.</b> 
+            We train a Latent NeRF in two stages. 
+            First, we train the chosen NeRF method \(F_\theta\) on posed encoded latent images using its proprietary loss \(\mathcal{L}_{F_\theta}\) that matches rendered latents \(\tilde{z}_p\) and encoded latents \(z_p\). 
+            Subsequently, we align with the scene in the RGB space by adding decoder fine-tuning via \(\mathcal{L}_\mathrm{align}\) that matches ground truth images \(x_p\) and decoded renderings \(\tilde{x}_p\).
+          </p>
+        </div>
+        <br/>
+        <!--/ Latent NeRF Training Pipeline. -->
+
+        <!-- IG-AE Training -->
+        <h3 class="title is-4">IG-AE Training</h3>
+        <div class="content has-text-justified">
+          <div class="columns is-centered has-text-centered">
+            <img src="static/images/ig-ae-training.svg" alt="IG-AE Training" width="75%"/>
+          </div>
+          <p>
+            <b>IG-AE Training.</b>
+            We jointly learn a set of latent synthetic scenes \(\mathcal{T}_\tau\) and supervise the latent images \(z_{s,p}\) of an autoencoder with rendered 3D-consistent latents \(\tilde{z}_{s,p}\) using \(\mathcal{L}_\mathrm{latent}\).
+            We match decoded latent renderings \(\tilde{x}_{s,p}\) with the ground truth scene renderings \(x_{s,p}\) using \(\mathcal{L}_\mathrm{RGB}\).
+            We preserve autoencoder performances on synthetic and real data respectively through \(\mathcal{L}_\mathrm{ae}^\mathrm{(synth)}\) and \(\mathcal{L}_\mathrm{ae}^\mathrm{(real)}\).
+          </p>
+        </div>
+        <!--/ IG-AE Training -->
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Mehtod -->
+
+<!-- BibTex -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{ig-ae,
+      author    = {},
+      title     = {{Bringing NeRFs to the Latent Space: Inverse Graphics Autoencoder}},
+      journal   = {},
+      year      = {2024},
+    }</code></pre>
+  </div>
+</section>
+<!--/ BibTex -->
+
+
+<!-- <footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer> -->
+
+</body>
+</html>
