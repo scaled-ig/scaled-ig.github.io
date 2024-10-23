@@ -6,7 +6,7 @@
         content="">
   <meta name="keywords" content="NeRF">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IG-AE</title>
+  <title>Scaled IG</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -31,12 +31,12 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Bringing NeRFs to the Latent Space: <br> Inverse Graphics Autoencoder</h1>
+          <h1 class="title is-1 publication-title">Scaled Inverse Graphics: Efficiently Learning Large Sets of 3D Scenes</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://scholar.google.fr/citations?user=CcjdVBgAAAAJ&hl=fr">Antoine Schnepf</a><sup>* 1,3</sup>,</span>
-            <span class="author-block">
               <a href="https://scholar.google.com/citations?user=0dObvuYAAAAJ&hl=fr">Karim Kassab</a><sup>* 1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=CcjdVBgAAAAJ&hl=fr">Antoine Schnepf</a><sup>* 1,3</sup>,</span>
             <span class="author-block">
               <a href="https://scholar.google.fr/citations?user=IL2OzksAAAAJ&hl=fr">Jean-Yves Franceschi</a><sup>1</sup>,
             </span>
@@ -133,15 +133,14 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
-          While pre-trained image autoencoders are increasingly utilized in computer vision, the application of inverse graphics in 2D latent spaces has been under-explored. 
-          Yet, besides reducing the training and rendering complexity, applying inverse graphics in the latent space enables a valuable interoperability with other latent-based 2D methods. 
-          The major challenge is that inverse graphics cannot be directly applied to such image latent spaces because they lack an underlying 3D geometry. 
-          In this paper, we propose an Inverse Graphics Autoencoder (IG-AE) that specifically addresses this issue. 
-          To this end, we regularize an image autoencoder with 3D-geometry by aligning its latent space with jointly trained latent 3D scenes. 
-          We utilize the trained IG-AE to bring NeRFs to the latent space with a latent NeRF training pipeline, which we implement in an open-source extension of the Nerfstudio framework, 
-          thereby unlocking latent scene learning for its supported methods. 
-          We experimentally confirm that Latent NeRFs trained with IG-AE present an improved quality compared to a standard autoencoder, 
-          all while exhibiting training and rendering accelerations with respect to NeRFs trained in the image space.
+          While the field of inverse graphics has been witnessing continuous growth, techniques devised thus far predominantly focus on learning individual scene representations. 
+          In contrast, learning large sets of scenes has been a considerable bottleneck in NeRF developments, as repeatedly applying inverse graphics on a sequence of scenes, 
+          though essential for various applications, remains largely prohibitive in terms of resource costs. 
+          We introduce a framework termed "scaled inverse graphics", aimed at efficiently learning large sets of scene representations, and propose a novel method to this end. 
+          It operates in two stages: (i) training a compression model on a subset of scenes, then (ii) training NeRF models on the resulting smaller representations, thereby reducing the optimization space per new scene. 
+          In practice, we compact the representation of scenes by learning NeRFs in a latent space to reduce the image resolution, and sharing information across scenes to reduce NeRF representation complexity. 
+          We experimentally show that our method presents both the lowest training time and memory footprint in scaled inverse graphics compared to other methods applied independently on each scene. 
+          Our codebase is publicly available as open-source.
         </div>
       </div>
     </div>
@@ -155,37 +154,20 @@
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Method</h2>
-
-        <!-- Latent NeRF Training Pipeline. -->
-        <h3 class="title is-4">Latent NeRF Training Pipeline</h3>
         <div class="content has-text-justified">
           <div class="columns is-centered has-text-centered">
-            <img src="static/images/latent-nerf-training.svg" alt="Latent NeRF Training" width="75%"/>
+            <img src="static/images/learning-many-scenes.svg" alt="Method Scheme" width="75%"/>
           </div>
           <p>
-            <b>Latent NeRF Training.</b> 
-            We train a Latent NeRF in two stages. 
-            First, we train the chosen NeRF method \(F_\theta\) on posed encoded latent images using its proprietary loss \(\mathcal{L}_{F_\theta}\) that matches rendered latents \(\tilde{z}_p\) and encoded latents \(z_p\). 
-            Subsequently, we align with the scene in the RGB space by adding decoder fine-tuning via \(\mathcal{L}_\mathrm{align}\) that matches ground truth images \(x_p\) and decoded renderings \(\tilde{x}_p\).
+            <b>Learning a large set of scenes.</b> 
+            We learn a large set of scenes using a two-stage approach.
+            Stage 1 jointly learns a small subset of scenes by training the micro-planes \(\mathcal{T}_1^\mathrm{mic}\), the shared base planes \(\mathcal{B}\), the weights \(W_i\), as well as the encoder \(E_\phi\) and decoder \(D_\psi\).
+            Stage 2 learns the rest of the scenes by training \(\mathcal{T}_2^\mathrm{mic}\) and \(W_i\) while fine-tuning \(D_\psi\) and \(\mathcal{B}\).
+            This stage exclusively uses \(\mathcal{L}^\mathrm{(latent)}\), and then switches to \(\mathcal{L}^\mathrm{(RGB)}\).
+            Note that \(T_i^\mathrm{mac}\) is computed by a weighted summation over the \(M\) shared base planes \(\mathcal{B}\), with weights \(W_i\). 
           </p>
         </div>
         <br/>
-        <!--/ Latent NeRF Training Pipeline. -->
-
-        <!-- IG-AE Training -->
-        <h3 class="title is-4">IG-AE Training</h3>
-        <div class="content has-text-justified">
-          <div class="columns is-centered has-text-centered">
-            <img src="static/images/ig-ae-training.svg" alt="IG-AE Training" width="75%"/>
-          </div>
-          <p>
-            <b>IG-AE Training.</b>
-            We jointly learn a set of latent synthetic scenes \(\mathcal{T}_\tau\) and supervise the latent images \(z_{s,p}\) of an autoencoder with rendered 3D-consistent latents \(\tilde{z}_{s,p}\) using \(\mathcal{L}_\mathrm{latent}\).
-            We match decoded latent renderings \(\tilde{x}_{s,p}\) with the ground truth scene renderings \(x_{s,p}\) using \(\mathcal{L}_\mathrm{RGB}\).
-            We preserve autoencoder performances on synthetic and real data respectively through \(\mathcal{L}_\mathrm{ae}^\mathrm{(synth)}\) and \(\mathcal{L}_\mathrm{ae}^\mathrm{(real)}\).
-          </p>
-        </div>
-        <!--/ IG-AE Training -->
       </div>
     </div>
   </div>
@@ -196,9 +178,9 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{ig-ae,
+    <pre><code>@article{sig,
       author    = {},
-      title     = {{Bringing NeRFs to the Latent Space: Inverse Graphics Autoencoder}},
+      title     = {{Scaled Inverse Graphics: Efficiently Learning Large Sets of 3D Scenes}},
       journal   = {},
       year      = {2024},
     }</code></pre>
