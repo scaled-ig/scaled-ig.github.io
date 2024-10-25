@@ -195,9 +195,10 @@
             <img src="static/images/resource_landscape.svg" alt="Method Scheme" width="70%"/>
           </div>
           <h3 class="title is-4">Comparison with classical Tri-Planes</h3>
+          <h4 class="title is-5">Shapenet Cars Scenes</h4>
           <div class="columns is-centered has-text-centered">
             <figure>
-              <video id="large-scale" autoplay muted loop playsinline width="60%">
+              <video id="large-scale" autoplay muted loop playsinline width="70%">
                 <source src="./static/videos/cars/comp_latent/comp_latent_range(506, 512).mp4"
                         type="video/mp4">
               </video>         
@@ -206,8 +207,27 @@
           </div>
           <div class="columns is-centered has-text-centered">
             <figure>
-              <video id="large-scale" autoplay muted loop playsinline width="60%">
+              <video id="large-scale" autoplay muted loop playsinline width="70%">
                 <source src="./static/videos/cars/comp_rgb/comp_rgb_range(506, 512).mp4"
+                        type="video/mp4">
+              </video>
+              <figcaption>Tri-Planes independently trained in the RGB space.</figcaption>
+            </figure>
+          </div>
+          <h4 class="title is-5">Basel Faces Scenes</h4>
+          <div class="columns is-centered has-text-centered">
+            <figure>
+              <video id="large-scale" autoplay muted loop playsinline width="70%">
+                <source src="./static/videos/faces/comp_latent/comp_latent_range(506, 512).mp4"
+                        type="video/mp4">
+              </video>         
+              <figcaption>Tri-Planes trained in the latent space with a Micro-Macro decomposition.</figcaption>
+            </figure>
+          </div>
+          <div class="columns is-centered has-text-centered">
+            <figure>
+              <video id="large-scale" autoplay muted loop playsinline width="70%">
+                <source src="./static/videos/faces/comp_rgb/comp_rgb_range(506, 512).mp4"
                         type="video/mp4">
               </video>
               <figcaption>Tri-Planes independently trained in the RGB space.</figcaption>
