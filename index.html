@@ -170,11 +170,14 @@
           </div>
           <p>
             <b>Learning a large set of scenes.</b> 
-            We learn a large set of scenes using a two-stage approach.
-            Stage 1 jointly learns a small subset of scenes by training the micro-planes \(\mathcal{T}_1^\mathrm{mic}\), the shared base planes \(\mathcal{B}\), the weights \(W_i\), as well as the encoder \(E_\phi\) and decoder \(D_\psi\).
-            Stage 2 learns the rest of the scenes by training \(\mathcal{T}_2^\mathrm{mic}\) and \(W_i\) while fine-tuning \(D_\psi\) and \(\mathcal{B}\).
-            This stage exclusively uses \(\mathcal{L}^\mathrm{(latent)}\), and then switches to \(\mathcal{L}^\mathrm{(RGB)}\).
-            Note that \(T_i^\mathrm{mac}\) is computed by a weighted summation over the \(M\) shared base planes \(\mathcal{B}\), with weights \(W_i\). 
+            We learn a large set of scenes in the latent space of an autoencoder using a two-stage approach.
+            Stage 1 jointly learns the encoder \(E_\phi\) and decoder \(D_\psi\) to optimally compress the training images \(x_{i,j}\), while learning a subset of scenes \(\mathcal{T}_1\).
+            Stage 2 utilizes the components learned in the first stage to learn the rest of the scenes \(\mathcal{T}_2\).
+            We represent each scene with a Tri-Planes representation obtained by concatenating along the feature dimension "micro" planes integrating scene-specific information and "macro" planes encompassing global information.
+            The micro planes \(T_i^\mathrm{mic}\) are independently learned for each scene.
+            The macro planes \(T_i^\mathrm{mac}\) are computed from a set of shared base planes \(\mathcal{B}\) via a summation with weights \(W_i\). 
+            We train a latent Tri-Plane by matching its rendering \(\tilde{z}_{i,j}\) with the encoded image \(z_{i,j}\) via the reconstructive objective \(\mathcal{L}^\mathrm{(latent)}\).
+            We also align the decoded scene renderings \(\tilde{x}_{i,j}\) with the ground truth RGB image via \(\mathcal{L}^\mathrm{(RGB)}\).
           </p>
         </div>
       </div>
