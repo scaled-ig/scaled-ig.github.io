@@ -178,6 +178,7 @@
             The macro planes \(T_i^\mathrm{mac}\) are computed from a set of shared base planes \(\mathcal{B}\) via a summation with weights \(W_i\). 
             We train a latent Tri-Plane by matching its rendering \(\tilde{z}_{i,j}\) with the encoded image \(z_{i,j}\) via the reconstructive objective \(\mathcal{L}^\mathrm{(latent)}\).
             We also align the decoded scene renderings \(\tilde{x}_{i,j}\) with the ground truth RGB image via \(\mathcal{L}^\mathrm{(RGB)}\).
+            \(\mathcal{L}^\mathrm{(ae)}\) is a auto-encoder reconstructive loss used in the first stage only.
           </p>
         </div>
       </div>
