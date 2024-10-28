@@ -173,7 +173,7 @@
             We learn a large set of scenes in the latent space of an autoencoder using a two-stage approach.
             Stage 1 jointly learns the encoder \(E_\phi\) and decoder \(D_\psi\) to optimally compress the training images \(x_{i,j}\), while learning a subset of scenes \(\mathcal{T}_1\).
             Stage 2 utilizes the components learned in the first stage to learn the rest of the scenes \(\mathcal{T}_2\).
-            We represent each scene with a Tri-Planes representation obtained by concatenating along the feature dimension "micro" planes integrating scene-specific information and "macro" planes encompassing global information.
+            We represent each scene with a Tri-Plane representation obtained by concatenating along the feature dimension "micro" planes integrating scene-specific information and "macro" planes encompassing global information.
             The micro planes \(T_i^\mathrm{mic}\) are independently learned for each scene.
             The macro planes \(T_i^\mathrm{mac}\) are computed from a set of shared base planes \(\mathcal{B}\) via a summation with weights \(W_i\). 
             We train a latent Tri-Plane by matching its rendering \(\tilde{z}_{i,j}\) with the encoded image \(z_{i,j}\) via the reconstructive objective \(\mathcal{L}^\mathrm{(latent)}\).
