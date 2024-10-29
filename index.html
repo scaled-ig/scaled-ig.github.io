@@ -175,7 +175,8 @@
             Stage 2 utilizes the components learned in the first stage to learn the rest of the scenes \(\mathcal{T}_2\).
             We represent each scene with a Tri-Plane \(T_i\) obtained by concatenating along the feature dimension "micro" planes \(T_i^\mathrm{mic}\) integrating scene-specific information and "macro" planes \(T_i^\mathrm{mac}\) encompassing global information.
             The micro planes \(T_i^\mathrm{mic}\) are independently learned for each scene.
-            The macro planes \(T_i^\mathrm{mac}\) are computed from a set of shared base planes \(\mathcal{B}\) via a summation with weights \(W_i\). 
+            The macro planes \(T_i^\mathrm{mac}\) are computed from a set of shared base planes \(\mathcal{B}\) via a summation with weights \(W_i\).
+            \(\mathcal{B}\) are jointly learned with all scenes, and \(W_i\) are learned specifically for each scene. 
             We train a latent Tri-Plane \(T_i\) by matching its rendering \(\tilde{z}_{i,j}\) with the encoded image \(z_{i,j}\) via the reconstructive objective \(\mathcal{L}^\mathrm{(latent)}\).
             We also align the decoded scene renderings \(\tilde{x}_{i,j}\) with the ground truth RGB image via \(\mathcal{L}^\mathrm{(RGB)}\).
             \(\mathcal{L}^\mathrm{(ae)}\) is a auto-encoder reconstructive loss used in the first stage only.
